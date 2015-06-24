@@ -28,4 +28,6 @@ Usage
 Once the extension is installed, simply use it in your code by  :
 
 ```php
-<?= \proximity\csvexport\AutoloadExample::widget(); ?>```
+<?= \proximity\csvexport\CsvExport::widget([
+	'data'=>[]
+]); ?>```
