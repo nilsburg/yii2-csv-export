@@ -24,6 +24,8 @@ class CsvExport extends \yii\base\Widget
      */
     public $filename = "export.csv";
 
+    public $delimiter = ";";
+
     /**
      * Init widget
      */
@@ -52,10 +54,10 @@ class CsvExport extends \yii\base\Widget
         foreach($res as $data){
             if(!$campos){
                 $campos = array_keys($data);
-                fputcsv($fp, $campos, ";");
+                fputcsv($fp, $campos, $this->delimiter);
             }
             $fila = array_map('utf8_decode', $data);
-            fputcsv($fp, $fila, ";");
+            fputcsv($fp, $fila, $this->delimiter);
         }
         fclose($fp);
     }
