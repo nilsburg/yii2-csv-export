@@ -25,7 +25,10 @@ class CsvExport extends \yii\base\Widget
     public $filename = "export.csv";
 
     public $delimiter = ";";
-
+    /**
+     * @var bool Wether to utf8_decode values and fields or not, default true
+     */
+    public $utf8_decode = true;
     /**
      * Init widget
      */
@@ -54,10 +57,11 @@ class CsvExport extends \yii\base\Widget
         foreach($res as $data){
             if(!$campos){
                 $campos = array_keys($data);
+                if($this->utf8_decode) $campos = array_map('utf8_decode', $campos);
                 fputcsv($fp, $campos, $this->delimiter);
             }
-            $fila = array_map('utf8_decode', $data);
-            fputcsv($fp, $fila, $this->delimiter);
+            if($this->utf8_decode) $data = array_map('utf8_decode', $data);
+            fputcsv($fp, $data, $this->delimiter);
         }
         fclose($fp);
     }
