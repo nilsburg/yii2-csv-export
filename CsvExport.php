@@ -54,13 +54,14 @@ class CsvExport extends \yii\base\Widget
         }else{
             $fp = fopen($this->saveDir."/".$this->filename, 'w');
         }
+        if($this->utf8_decode){
+            fprintf($fp, chr(0xEF) . chr(0xBB) . chr(0xBF));//Añade BOM UTF-8
+        }
         foreach($res as $data){
             if(!$campos){
                 $campos = array_keys($data);
-                if($this->utf8_decode) $campos = array_map('utf8_decode', $campos);
                 fputcsv($fp, $campos, $this->delimiter);
             }
-            if($this->utf8_decode) $data = array_map('utf8_decode', $data);
             fputcsv($fp, $data, $this->delimiter);
         }
         fclose($fp);
